@@ -46,30 +46,19 @@ function Formulario() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.access_token}`;
-        axios.get("http://127.0.0.1:8000/usuario").then((res) => {
-          localStorage.setItem("user", JSON.stringify(res.data));
-          switch (res.data.idTypeUser) {
-            case 1:
-              return router.push(`/admin`);
-              break;
-            case 2:
-              return router.push(`/meseros`);
-              break;
-            case 3:
-              return router.push(`/cocineros`);
-            default:
-              break;
-          }
-        });
+        return axios.get("http://127.0.0.1:8000/users");
       })
-      .then((response) => {
+      .then((res) => {
+        localStorage.setItem("user", JSON.stringify(res.data));
         setError(null);
+        return router.push(`/home`);
       })
       .catch((error) => {
         console.error(error);
-        setError("Correo Electronico o Contraseña Incorrectos");
+        setError("Correo Electrónico o Contraseña Incorrectos");
       });
   };
+
   return (
     <form onSubmit={handleSubmit} className="forms">
       <div id="layoutAuthentication">
@@ -82,8 +71,10 @@ function Formulario() {
                     <div className="card">
                       <div className="card-header">
                         <p className="title-card">Inicio de Sesión</p>
-                        <p>Hola, {saludo}</p>
-                        <p>Por favor ingresa con tus credenciales otorgadas.</p>
+                        <p>
+                          Hola, {saludo} <br></br> Por favor ingresa con tus
+                          credenciales otorgadas
+                        </p>
                       </div>
                       <div className="card-body">
                         {error && (
