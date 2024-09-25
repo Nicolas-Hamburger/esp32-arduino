@@ -4,7 +4,7 @@ import "/node_modules/primeflex/primeflex.css";
 import "primeicons/primeicons.css";
 import "./globals.css";
 export const metadata = {
-  title: "Restaurante-Festin",
+  title: "Arduino-ESP32",
   description: "",
 };
 
