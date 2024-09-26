@@ -12,11 +12,12 @@ class MeasurementController:
             conn = get_db_connection()
             cursor = conn.cursor()
             user_id = new_measurement.user_id
-            value = new_measurement.value
+            value_motor = new_measurement.value_motor
+            value_led =new_measurement.value_led
             cursor.execute("""
-                INSERT INTO measurements (user_id, value)
-                VALUES (%s, %s)
-            """, (user_id, value))
+                INSERT INTO measurements (user_id, value_motor, value_led)
+                VALUES (%s, %s, %s)
+            """, (user_id, value_motor, value_led))
             conn.commit()
             conn.close()
             return {"informacion": "Medición registrada"}
