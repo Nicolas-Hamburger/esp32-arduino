@@ -11,7 +11,7 @@ from models.users_model import users
 router = APIRouter()
 
 # Configuración para encriptación de contraseñas
-SECRET_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODk4NDEwNiwiaWF0IjoxNjk4OTg0MTA2fQ.W3U9ivlk6ZW1qteEuUvGOjUDp8ed20sBNPKDi4rXWE4"
+SECRET_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5ODk4NDEwNiwiaWF0IjoxNjk4OTg0MTA2fQ.W3U9ivlk6ZW1qteEuUvGOjUDp8ed20sBNPKDi4rXWE4"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -30,9 +30,9 @@ class TokenData(BaseModel):
 # Obtener usuario de la base de datos
 
 
-def get_user(db, username: str):
+def get_user(db, email: str):
     cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE email = %s", (username,))
+    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
     if user:
         return user
@@ -45,7 +45,10 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    if plain_password == hashed_password:
+        return True
+    else:
+        return False
 
 # Crear token JWT
 
@@ -77,13 +80,13 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 # Ruta protegida que requiere autenticación
 
 
-@router.get("/users")
+@router.get("/usuario")
 async def obtener_usuario_autenticado(token: str = Depends(OAuth2PasswordBearer(tokenUrl="login"))):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        email: str = payload.get("sub")
         db = get_db_connection()
-        user = get_user(db, username)
+        user = get_user(db, email)
         return user
     except JWTError:
         raise HTTPException(
