@@ -9,7 +9,7 @@ function Info() {
   const usuarios = [
     {
       id: 1,
-      nombre: "Nicolas",
+      nombre: "Omar",
       email: "nicolas@example.com",
       rol: "Administrador",
     },
