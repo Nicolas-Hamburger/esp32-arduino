@@ -11,14 +11,18 @@ function Formulario() {
   const [error, setError] = useState(null);
   const [saludo, setSaludo] = useState("");
 
+ 
+
   useEffect(() => {
-    const horaActual = new Date().getHours();
-    if (horaActual >= 6 && horaActual < 18) {
-      setSaludo("¡Buenos días! ☀️");
-    } else {
-      setSaludo("¡Buenas noches! 🌙");
-    }
-  }, []);
+  const horaActual = new Date().getHours();
+  if (horaActual>=6 && horaActual <=12) {
+    setSaludo("¡Buenos días! ☀️");
+  } if(horaActual>12 && horaActual <18){
+    setSaludo("¡Buenos tardes! ☀️");
+  } else {
+    setSaludo("¡Buenos noches! 🌃");
+  }
+  },[]);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -46,12 +50,12 @@ function Formulario() {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.data.access_token}`;
-        return axios.get("http://127.0.0.1:8000/users");
+        return axios.get("http://127.0.0.1:8000/usuario");
       })
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
         setError(null);
-        return router.push(`/home`);
+        return router.push(`/info`);
       })
       .catch((error) => {
         console.error(error);

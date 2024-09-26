@@ -4,29 +4,22 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./style.css";
 
+
 function Home() {
   const router = useRouter();
   const [saludo, setSaludo] = useState("");
-  const usuarios = [
-    {
-      id: 1,
-      nombre: "Nicolas",
-      email: "nicolas@example.com",
-      rol: "Administrador",
-    },
-  ];
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user"));
 
-    if (usuario && usuario.nombre) {
+    if (usuario && usuario.user_name) {
       const horaActual = new Date().getHours();
       let saludoTemporal = "";
 
       if (horaActual >= 6 && horaActual < 18) {
-        saludoTemporal = `¡Buenos días, ${usuario.nombre}! ☀️`;
+        saludoTemporal = `¡Buenos días, ${usuario.user_name}! ☀️`;
       } else {
-        saludoTemporal = `¡Buenas noches, ${usuario.nombre}! 🌙`;
+        saludoTemporal = `¡Buenas noches, ${usuario.user_name}! 🌙`;
       }
 
       setSaludo(saludoTemporal);
