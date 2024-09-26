@@ -4,9 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./style.css";
 
-function Home() {
+function Info() {
   const router = useRouter();
-  const [saludo, setSaludo] = useState("");
   const usuarios = [
     {
       id: 1,
@@ -16,22 +15,9 @@ function Home() {
     },
   ];
 
-  useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem("user"));
-
-    if (usuario && usuario.nombre) {
-      const horaActual = new Date().getHours();
-      let saludoTemporal = "";
-
-      if (horaActual >= 6 && horaActual < 18) {
-        saludoTemporal = `¡Buenos días, ${usuario.nombre}! ☀️`;
-      } else {
-        saludoTemporal = `¡Buenas noches, ${usuario.nombre}! 🌙`;
-      }
-
-      setSaludo(saludoTemporal);
-    }
-  }, []);
+  const handleButtonClick = () => {
+    router.push('/home');
+  };
 
   return (
     <div className="forms">
@@ -45,19 +31,17 @@ function Home() {
                     <div className="card">
                       <div className="card-header">
                         <p className="title-card">Información</p>
-                        <p>Hola, {saludo}</p>
                         <div></div>
                       </div>
                       <div className="card-body">
-                        <p>Pulsador: </p>
-                        <p>Led: </p>
-                        <p>Motor: </p>
+                        <p>Usuario: </p>
+                        <p>Correo: </p>
+                        <p>Fecha de inicio de sesión: </p>
+                        <p></p>
                         <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
-                          <button className="btn btn-primary" type="submit">
-                            Encender Led
-                          </button>
-                          <button className="btn btn-primary" type="submit">
-                            Encender Motor
+                          <button className="btn btn-primary w-100" type="submit"
+                          onClick={handleButtonClick}>
+                            Ir al siguiente menu
                           </button>
                         </div>
                       </div>
@@ -73,4 +57,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Info;
