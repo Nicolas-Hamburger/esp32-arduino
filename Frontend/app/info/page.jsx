@@ -16,7 +16,7 @@ function Info() {
   ];
 
   const handleButtonClick = () => {
-    router.push('/home');
+    router.push("/home");
   };
 
   return (
@@ -34,14 +34,22 @@ function Info() {
                         <div></div>
                       </div>
                       <div className="card-body">
-                        <p>Usuario: </p>
-                        <p>Correo: </p>
-                        <p>Fecha de inicio de sesión: </p>
-                        <p></p>
+                        <p>
+                          ¡Has accedido al menú controlador de tu circuito
+                          electrónico! Aquí puedes gestionar tanto el encendido
+                          del LED como del motor. Podrás controlar fácilmente
+                          cuándo encender o apagar cada uno y, además,
+                          visualizar su estado actual para asegurarte de que
+                          todo esté funcionando correctamente. ¡Es un sistema
+                          sencillo y eficiente para tener todo bajo control!
+                        </p>
                         <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
-                          <button className="btn btn-primary w-100" type="submit"
-                          onClick={handleButtonClick}>
-                            Ir al siguiente menu
+                          <button
+                            className="btn btn-primary w-100"
+                            type="submit"
+                            onClick={handleButtonClick}
+                          >
+                          Siguiente
                           </button>
                         </div>
                       </div>
