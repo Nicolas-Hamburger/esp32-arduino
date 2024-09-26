@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.sessions_routes import router as sessions_routes
 from routes.auth_routes import router as Auth_routes
+from routes.measurements_routes import router as measurements_routes
 
 app = FastAPI()
 
@@ -22,7 +23,7 @@ app.add_middleware(
 )
 app.include_router(sessions_routes)
 app.include_router(Auth_routes)
-
+app.include_router(measurements_routes)
 
 
 if __name__ == "__main__":
