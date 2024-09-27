@@ -42,7 +42,6 @@ function Home() {
                         <div></div>
                       </div>
                       <div className="card-body">
-                        <p>Pulsador: </p>
                         <p>Led: </p>
                         <p>Motor: </p>
                         <div className="d-flex align-items-center justify-content-between mt-4 mb-0">

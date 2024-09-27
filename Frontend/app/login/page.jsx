@@ -11,18 +11,17 @@ function Formulario() {
   const [error, setError] = useState(null);
   const [saludo, setSaludo] = useState("");
 
- 
-
   useEffect(() => {
-  const horaActual = new Date().getHours();
-  if (horaActual>=6 && horaActual <=12) {
-    setSaludo("¡Buenos días! ☀️");
-  } if(horaActual>12 && horaActual <18){
-    setSaludo("¡Buenos tardes! ☀️");
-  } else {
-    setSaludo("¡Buenos noches! 🌃");
-  }
-  },[]);
+    const horaActual = new Date().getHours();
+    if (horaActual >= 6 && horaActual <= 12) {
+      setSaludo("¡Buenos días! ☀️");
+    }
+    if (horaActual > 12 && horaActual < 18) {
+      setSaludo("¡Buenos tardes! ☀️");
+    } else {
+      setSaludo("¡Buenos noches! 🌃");
+    }
+  }, []);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -55,14 +54,20 @@ function Formulario() {
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
         setError(null);
-        return router.push(`/info`);
+        const user = JSON.parse(localStorage.getItem("user"));
+        const user_id = user.user_id; 
+        return axios.post("http://127.0.0.1:8000/post/sessions", {
+          user_id: user_id,
+        });
+      })
+      .then(() => {
+        router.push(`/info`);
       })
       .catch((error) => {
         console.error(error);
         setError("Correo Electrónico o Contraseña Incorrectos");
       });
   };
-
   return (
     <form onSubmit={handleSubmit} className="forms">
       <div id="layoutAuthentication">
