@@ -7,11 +7,11 @@ from routes.measurements_routes import router as measurements_routes
 
 app = FastAPI()
 
+
 origins = [
-    # "http://localhost.tiangolo.com",
-    # "https://localhost.tiangolo.com",
-    "http://localhost:3000"
-    # "http://localhost:8080",
+    "http://localhost:3000",
+    "http://192.168.88.0/24",
+    "*"
 ]
 
 app.add_middleware(
@@ -21,6 +21,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 app.include_router(sessions_routes)
 app.include_router(Auth_routes)
 app.include_router(measurements_routes)
