@@ -10,3 +10,8 @@ controller = MeasurementController()
 async def post_measurement(new_measurement: measurements):
     rpta = await controller.post_measurement(new_measurement)
     return rpta
+
+
+@router.get("/get/measurements/latest")
+async def get_latest_measurements():
+    return await controller.get_latest_measurements()
