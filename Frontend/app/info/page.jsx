@@ -6,15 +6,6 @@ import "./style.css";
 
 function Info() {
   const router = useRouter();
-  const usuarios = [
-    {
-      id: 1,
-      nombre: "Omar",
-      email: "nicolas@example.com",
-      rol: "Administrador",
-    },
-  ];
-
   const handleButtonClick = () => {
     router.push("/home");
   };
