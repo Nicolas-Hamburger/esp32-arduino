@@ -7,22 +7,21 @@ from routes.measurements_routes import router as measurements_routes
 
 app = FastAPI()
 
-
 origins = [
     "http://localhost:3000",
-    "http://192.168.64.0/24",
-    "*"
+    "http://192.168.88.0/24",  
+    "*"  
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins,  
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
-
+# Incluir rutas
 app.include_router(sessions_routes)
 app.include_router(Auth_routes)
 app.include_router(measurements_routes)
