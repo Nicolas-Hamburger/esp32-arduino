@@ -31,7 +31,7 @@ function Home() {
     const fetchStatus = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.88.73:8000/get/measurements/latest"
+          "http://192.168.212.73:8000/get/measurements/latest"
         );
         const data = response.data;
         setLedStatus(data.value_led === 1);
@@ -52,7 +52,7 @@ function Home() {
       const newStatus = !ledStatus;
       setLedStatus(newStatus);
 
-      await axios.post("http://192.168.88.73:8000/post/measurements", {
+      await axios.post("http://192.168.212.73:8000/post/measurements", {
         value_motor: motorStatus ? 1 : 0,
         value_led: newStatus ? 1 : 0,
       });
@@ -66,7 +66,7 @@ function Home() {
       const newStatus = !motorStatus;
       setMotorStatus(newStatus);
 
-      await axios.post("http://192.168.88.73:8000/post/measurements", {
+      await axios.post("http://192.168.212.73:8000/post/measurements", {
         value_motor: newStatus ? 1 : 0,
         value_led: ledStatus ? 1 : 0,
       });
