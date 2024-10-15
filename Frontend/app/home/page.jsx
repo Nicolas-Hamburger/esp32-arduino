@@ -9,6 +9,7 @@ function Home() {
   const [saludo, setSaludo] = useState("");
   const [ledStatus, setLedStatus] = useState(false);
   const [motorStatus, setMotorStatus] = useState(false);
+  const [confirmLogout, setConfirmLogout] = useState(false); 
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user"));
@@ -41,10 +42,10 @@ function Home() {
       }
     };
 
-    fetchStatus(); 
-    const intervalId = setInterval(fetchStatus, 2000); 
+    fetchStatus();
+    const intervalId = setInterval(fetchStatus, 2000);
 
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleLedToggle = async () => {
@@ -73,6 +74,30 @@ function Home() {
     } catch (error) {
       console.error("Error al cambiar el estado del Motor:", error);
     }
+  };
+
+  const handleLogout = async () => {
+    setConfirmLogout(false); 
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const endTime = new Date().toISOString(); 
+
+   
+    try {
+      await axios.post("http://127.0.0.1:8000/post/sessions", {
+        user_id: user.user_id, 
+        start_time: user.start_time, 
+        end_time: endTime,
+      });
+      localStorage.removeItem("user");
+      router.push("/login"); 
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
+  };
+
+  const handleConfirmLogout = () => {
+    setConfirmLogout(true); 
   };
 
   return (
@@ -106,7 +131,30 @@ function Home() {
                           >
                             {motorStatus ? "Apagar Motor" : "Encender Motor"}
                           </button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={handleConfirmLogout}
+                          >
+                            Cerrar Sesión
+                          </button>
                         </div>
+                        {confirmLogout && (
+                          <div className="confirm-logout">
+                            <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                            <button
+                              className="btn btn-secondary"
+                              onClick={handleLogout}
+                            >
+                              Sí
+                            </button>
+                            <button
+                              className="btn btn-secondary"
+                              onClick={() => setConfirmLogout(false)}
+                            >
+                              No
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
