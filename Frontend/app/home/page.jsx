@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import "./style.css";
+import "font-awesome/css/font-awesome.min.css";
 
 function Home() {
   const router = useRouter();
   const [saludo, setSaludo] = useState("");
   const [ledStatus, setLedStatus] = useState(false);
   const [motorStatus, setMotorStatus] = useState(false);
-  const [confirmLogout, setConfirmLogout] = useState(false); 
 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user"));
@@ -21,7 +21,7 @@ function Home() {
       if (horaActual >= 6 && horaActual < 18) {
         saludoTemporal = `¡Buenos días, ${usuario.user_name}! ☀️`;
       } else {
-        saludoTemporal = `¡Buenos noches, ${usuario.user_name}! 🌙`;
+        saludoTemporal = `¡Buenas noches, ${usuario.user_name}! 🌙`;
       }
 
       setSaludo(saludoTemporal);
@@ -77,27 +77,22 @@ function Home() {
   };
 
   const handleLogout = async () => {
-    setConfirmLogout(false); 
+    const confirmLogout = window.confirm(
+      "¿Estás seguro de que deseas cerrar sesión?"
+    );
+    if (confirmLogout) {
+      const usuario = JSON.parse(localStorage.getItem("user"));
+      const endTime = new Date().toISOString();
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    const endTime = new Date().toISOString(); 
-
-   
-    try {
       await axios.post("http://127.0.0.1:8000/post/sessions", {
-        user_id: user.user_id, 
-        start_time: user.start_time, 
+        user_id: usuario.user_id,
+        start_time: new Date(usuario.start_time).toISOString(),
         end_time: endTime,
       });
-      localStorage.removeItem("user");
-      router.push("/login"); 
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
 
-  const handleConfirmLogout = () => {
-    setConfirmLogout(true); 
+      localStorage.removeItem("user"); 
+      router.push("/login"); 
+    }
   };
 
   return (
@@ -105,15 +100,29 @@ function Home() {
       <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
           <main>
-            <div className="container">
+            <div
+              className="container d-flex justify-content-center align-items-center"
+              style={{ minHeight: "100vh" }}
+            >
               <div className="container-forms">
-                <div className="row justify-content-center h-100">
+                <div className="row justify-content-center">
                   <div className="col-lg-5">
                     <div className="card">
                       <div className="card-header">
                         <p className="title-card">Home</p>
                         <p>Hola, {saludo}</p>
-                        <div></div>
+                        <div>
+                          <i
+                            className="fa fa-sign-out"
+                            aria-hidden="true"
+                            onClick={handleLogout}
+                            style={{
+                              cursor: "pointer",
+                              float: "right",
+                              fontSize: "24px",
+                            }}
+                          ></i>
+                        </div>
                       </div>
                       <div className="card-body">
                         <p>Led: {ledStatus ? "Encendido" : "Apagado"}</p>
@@ -131,30 +140,7 @@ function Home() {
                           >
                             {motorStatus ? "Apagar Motor" : "Encender Motor"}
                           </button>
-                          <button
-                            className="btn btn-danger"
-                            onClick={handleConfirmLogout}
-                          >
-                            Cerrar Sesión
-                          </button>
                         </div>
-                        {confirmLogout && (
-                          <div className="confirm-logout">
-                            <p>¿Estás seguro de que deseas cerrar sesión?</p>
-                            <button
-                              className="btn btn-secondary"
-                              onClick={handleLogout}
-                            >
-                              Sí
-                            </button>
-                            <button
-                              className="btn btn-secondary"
-                              onClick={() => setConfirmLogout(false)}
-                            >
-                              No
-                            </button>
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -167,5 +153,4 @@ function Home() {
     </div>
   );
 }
-
 export default Home;
