@@ -119,7 +119,9 @@ function Home() {
                             style={{
                               cursor: "pointer",
                               float: "right",
+                              marginRight: "10px",
                               fontSize: "24px",
+                              color: "white",
                             }}
                           ></i>
                         </div>

@@ -14,11 +14,11 @@ function Formulario() {
   useEffect(() => {
     const horaActual = new Date().getHours();
     if (horaActual >= 6 && horaActual <= 12) {
-      setSaludo("¡Buenos días! ☀️");
+      setSaludo("¡Buenos días! 🌄");
     }
     if (horaActual > 12 && horaActual < 18) {
       setSaludo("¡Buenos tardes! ☀️");
-    } else {
+    } if (horaActual > 18 && horaActual <6) {
       setSaludo("¡Buenos noches! 🌃");
     }
   }, []);
