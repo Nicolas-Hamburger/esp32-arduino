@@ -18,7 +18,8 @@ function Formulario() {
     }
     if (horaActual > 12 && horaActual < 18) {
       setSaludo("¡Buenos tardes! ☀️");
-    } if (horaActual > 18 && horaActual <6) {
+    }
+    if (horaActual > 18 && horaActual < 6) {
       setSaludo("¡Buenos noches! 🌃");
     }
   }, []);
@@ -55,9 +56,15 @@ function Formulario() {
         localStorage.setItem("user", JSON.stringify(res.data));
         setError(null);
         const user = JSON.parse(localStorage.getItem("user"));
-        const user_id = user.user_id; 
+        const user_id = user.user_id;
+        const startTime = new Date().toLocaleString("es-CO", {
+          timeZone: "America/Bogota",
+        });
+        localStorage.setItem("start_time", startTime);
         return axios.post("http://127.0.0.1:8000/post/sessions", {
           user_id: user_id,
+          start_time: startTime,
+          end_time: "",
         });
       })
       .then(() => {
@@ -68,6 +75,7 @@ function Formulario() {
         setError("Correo Electrónico o Contraseña Incorrectos");
       });
   };
+
   return (
     <form onSubmit={handleSubmit} className="forms">
       <div id="layoutAuthentication">

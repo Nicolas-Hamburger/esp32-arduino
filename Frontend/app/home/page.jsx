@@ -84,14 +84,20 @@ function Home() {
       const usuario = JSON.parse(localStorage.getItem("user"));
       const endTime = new Date().toISOString();
 
-      await axios.post("http://127.0.0.1:8000/post/sessions", {
-        user_id: usuario.user_id,
-        start_time: new Date(usuario.start_time).toISOString(),
-        end_time: endTime,
-      });
+      const startTime = usuario?.start_time;
 
-      localStorage.removeItem("user"); 
-      router.push("/login"); 
+      if (startTime) {
+        await axios.post("http://127.0.0.1:8000/post/sessions", {
+          user_id: usuario.user_id,
+          start_time: startTime,
+          end_time: endTime,
+        });
+      } else {
+        console.error("start_time no está disponible en el localStorage.");
+      }
+
+      localStorage.removeItem("user");
+      router.push("/login");
     }
   };
 
@@ -155,4 +161,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
