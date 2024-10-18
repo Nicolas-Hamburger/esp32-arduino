@@ -45,7 +45,7 @@ function Home() {
     };
 
     fetchStatus();
-    const intervalId = setInterval(fetchStatus, 2000);
+    const intervalId = setInterval(fetchStatus, 5000);
 
     return () => clearInterval(intervalId);
   }, []);
