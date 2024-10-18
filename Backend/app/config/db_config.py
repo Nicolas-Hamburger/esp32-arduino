@@ -7,3 +7,4 @@ def get_db_connection():
         password="xMaEL61aZuYjz0iL9CVw",
         database="bbzs5uhupardgtjsrj2e"
     )
+
