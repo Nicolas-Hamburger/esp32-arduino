@@ -11,6 +11,7 @@ function Home() {
   const [ledStatus, setLedStatus] = useState(false);
   const [motorStatus, setMotorStatus] = useState(false);
 
+ 
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("user"));
 
@@ -28,6 +29,7 @@ function Home() {
     }
   }, []);
 
+  
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -48,6 +50,7 @@ function Home() {
     return () => clearInterval(intervalId);
   }, []);
 
+
   const handleLedToggle = async () => {
     try {
       const newStatus = !ledStatus;
@@ -62,6 +65,7 @@ function Home() {
     }
   };
 
+  
   const handleMotorToggle = async () => {
     try {
       const newStatus = !motorStatus;
@@ -76,31 +80,29 @@ function Home() {
     }
   };
 
+
   const handleLogout = async () => {
     const confirmLogout = window.confirm(
       "¿Estás seguro de que deseas cerrar sesión?"
     );
     if (confirmLogout) {
       const usuario = JSON.parse(localStorage.getItem("user"));
-      const endTime = new Date().toISOString();
-
-      const startTime = usuario?.start_time;
-
+      const endTime = new Date().toLocaleString('es-CO', { timeZone: 'America/Bogota' });
+      const startTime = localStorage.getItem("start_time");
       if (startTime) {
         await axios.post("http://127.0.0.1:8000/post/sessions", {
           user_id: usuario.user_id,
-          start_time: startTime,
+          start_time: startTime,  
           end_time: endTime,
         });
       } else {
         console.error("start_time no está disponible en el localStorage.");
       }
-
       localStorage.removeItem("user");
+      localStorage.removeItem("start_time"); 
       router.push("/login");
     }
   };
-
   return (
     <div className="forms">
       <div id="layoutAuthentication">
